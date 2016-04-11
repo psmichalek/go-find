@@ -4,7 +4,7 @@
     "name": "psmichalek"
   },
   "name": "go-find",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Utility for doing a simple text search in files.",
   "main": "index.js",
   "scripts": {
@@ -21,8 +21,8 @@
     "recursive-readdir": "^1.3.0",
     "shelljs": "^0.6.0"
   },
-  "repository" :
-  { "type" : "git"
-  , "url" : "ttps://github.com/psmichalek/go-find.git"
+  "repository": {
+    "type": "git",
+    "url": "ttps://github.com/psmichalek/go-find.git"
   }
 }
