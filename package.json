@@ -1,0 +1,28 @@
+{
+  "_npmUser": {
+    "email": "psmichalek@gmail.com",
+    "name": "psmichalek"
+  },
+  "name": "go-find",
+  "version": "0.0.1",
+  "description": "Utility for doing a simple text search in files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Paul Samuel Michalek",
+  "license": "MIT",
+  "dependencies": {
+    "fs": "0.0.2",
+    "lodash": "^4.6.1",
+    "moment": "^2.12.0",
+    "path": "^0.12.7",
+    "readline": "^1.3.0",
+    "recursive-readdir": "^1.3.0",
+    "shelljs": "^0.6.0"
+  },
+  "repository" :
+  { "type" : "git"
+  , "url" : "ttps://github.com/psmichalek/go-find.git"
+  }
+}
