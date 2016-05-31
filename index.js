@@ -185,34 +185,37 @@ GoFind.prototype._report = function(){
 	if(!self.quietMode) self._render(optext.CONSOLE_STATS,function(t){ self._log(t); });
 	
 	// Write matched stats to file
-	if(self.writeMatchFile && setFile( self.matchOutputFile )){
-		self._render(optext.OUTPUT_FILE_HEADER,function(header){ 
-			header.toEnd( self.matchOutputFile );
-			_.each(self._matchedfiles,function(mf){
-				var sout='';
-				if(self.showMatchLineNumbers) {
-					sout=sout+' -----------------------------------------\n';
-					sout=sout+' '+mf.file+'\n';
-					_.each(mf.lines,function(ll){
-						sout=sout+'  '+ll.line+': '+ll.text+'\n';
-					});
-				}else{
-					sout=sout+mf.file+'\n';
-				}
-				sout.toEnd( self.matchOutputFile );
-			});
-		});			
-	} else self._log( optext.ERROR_CREATE_MATCH_FILE );
-	
+	if(self.writeMatchFile){
+		if(setFile( self.matchOutputFile )){
+			self._render(optext.OUTPUT_FILE_HEADER,function(header){ 
+				header.toEnd( self.matchOutputFile );
+				_.each(self._matchedfiles,function(mf){
+					var sout='';
+					if(self.showMatchLineNumbers) {
+						sout=sout+' -----------------------------------------\n';
+						sout=sout+' '+mf.file+'\n';
+						_.each(mf.lines,function(ll){
+							sout=sout+'  '+ll.line+': '+ll.text+'\n';
+						});
+					}else{
+						sout=sout+mf.file+'\n';
+					}
+					sout.toEnd( self.matchOutputFile );
+				});
+			});			
+		} else self._log( optext.ERROR_CREATE_MATCH_FILE );
+	}
 
 	// Write ignore stats to file
-	if(self.writeIgnoreFile && setFile( self.ignoreOutputFile )){
-		self._render(optext.IGNORE_FILE_HEADER,function(t){
-			t.toEnd( self.ignoreOutputFile );
-			_.each(self._ignorefiles,function(f){ var ff=f+'\n'; ff.toEnd(self.ignoreOutputFile); });
-			_.each(self._ignoredirs,function(f){ var fff=f+'\n'; fff.toEnd(self.ignoreOutputFile); });
-		});
-	} else self._log( optext.ERROR_CREATE_IGNORE_FILE );
+	if(self.writeIgnoreFile){
+		if(setFile( self.ignoreOutputFile )){
+			self._render(optext.IGNORE_FILE_HEADER,function(t){
+				t.toEnd( self.ignoreOutputFile );
+				_.each(self._ignorefiles,function(f){ var ff=f+'\n'; ff.toEnd(self.ignoreOutputFile); });
+				_.each(self._ignoredirs,function(f){ var fff=f+'\n'; fff.toEnd(self.ignoreOutputFile); });
+			});
+		} else self._log( optext.ERROR_CREATE_IGNORE_FILE );
+	}
 	
 }
 
