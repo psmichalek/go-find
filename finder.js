@@ -29,7 +29,7 @@ prompt.get(pSchema,function(err,vals){
 	finder.matchOutputFile  = (typeof vals.matchFile!=='undefined') ? vals.matchFile : defaultMatchFile;
 	finder.ignoreOutputFile = (typeof vals.ignoreFile!=='undefined') ? vals.ignoreFile : defaultIgnoreFile;
 	finder.showMatchLineNumbers = true;
-	finder.quietMode        = true;
+	finder.quietMode        = false;
 	finder.writeMatchFile   = (typeof vals.writeMatch==='undefined')?true:(vals.writeMatch=='y')?true:false;
 	finder.writeIgnoreFile  = (typeof vals.writeIgnore!=='undefined' && vals.writeIgnore=='y')?true:false;
 	if(typeof vals.diagmode!=='undefined' && vals.diagmode=='y') finder.quietMode=false;

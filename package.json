@@ -4,7 +4,7 @@
     "name": "psmichalek"
   },
   "name": "go-find",
-  "version": "0.1.0",
+  "version": "0.0.3",
   "description": "Utility for doing a simple text search in files.",
   "main": "index.js",
   "scripts": {

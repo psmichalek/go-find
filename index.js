@@ -182,15 +182,15 @@ GoFind.prototype._report = function(){
 	var self = this;
 	var setFile = function(file,type){
 		
-		var pathDir=file.replace(/(.*\/).*/,''); 
-		if(self.diagnosticMode) self._log('pathDir '+pathDir);
+		var pathDir=file.match(/(.*)[\/\\]/)[1]||'';
+		if(!self.quietMode) self._log('pathDir = '+pathDir);
 
 		var dirExists=(pathDir!='') ? test('-e',pathDir) : true; 
 		if(!self.quietMode) self._log('dirExists = '+dirExists);
 
 		if ( !dirExists ) { 
 			mkdir('-p',pathDir); 
-			if(!self.quietMode) self._log(' Directory '+pathDir+' was not found so it was created.'); 
+			if(!self.quietMode) self._log(' Directory "'+pathDir+'" was not found so it was created.'); 
 		}
 
 		var isDirOnly = test('-d',file); 
@@ -211,8 +211,10 @@ GoFind.prototype._report = function(){
 			if(!self.quietMode) self._log(' The old '+type+' output file was removed and will be replaced with current results.');
 		}
 
-		touch(file); 
-		if(!self.quietMode) self._log(' '+file+' created ');
+		try { 
+			touch(file); 
+			if(!self.quietMode) self._log(' '+file+' created ');
+		} catch(e){}
 
 		return test('-e',file);
 
