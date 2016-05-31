@@ -27,6 +27,8 @@ var GoFind = function(){
 	this._ignoredirs=[];
 	this._matchedfiles=[];
 	this._matchRe = '';
+	this._defaultMatchFile='matched.txt';
+	this._defaultIgnoreFile='ignored.txt';
 
 	// Public properties
 	this.startDirectory=undefined;
@@ -34,11 +36,11 @@ var GoFind = function(){
 	this.searchText=undefined;
 	this.caseSensitive=false;
 	this.wholeWord=true;
-	this.matchOutputFile='matched.txt';
+	this.matchOutputFile=this._defaultMatchFile;
 	this.writeMatchFile=true;
 	this.showMatchLineNumbers=false;
 	this.ignored=[];
-	this.ignoreOutputFile='ignored.txt';
+	this.ignoreOutputFile=this._defaultIgnoreFile;
 	this.writeIgnoreFile=true;
 	this.quietMode=false;
 }
@@ -146,8 +148,8 @@ GoFind.prototype._templates = function(){
 							'\n';
 	t.START_TEXT			='\n Starting search '+moment().format("MM/DD/YYYY hh:mm:ss A");
 	t.CONSOLE_STATS = statstpml;
-	t.ERROR_CREATE_MATCH_FILE = ' Could not create the file '+self.matchOutputFile;		
-	t.ERROR_CREATE_IGNORE_FILE = ' Could not create the file '+self.ignoreOutputFile;	
+	t.ERROR_CREATE_MATCH_FILE 	= ' Could not create the file '+self.matchOutputFile +'. Make sure directory exists.';		
+	t.ERROR_CREATE_IGNORE_FILE 	= ' Could not create the file '+self.ignoreOutputFile+'. Make sure directory exists.';	
 	return t;	
 }
 
@@ -178,15 +180,52 @@ GoFind.prototype._render = function(templ,callback){
 
 GoFind.prototype._report = function(){
 	var self = this;
-	var setFile = function(file){ rm('-f',file); touch(file); return test('-e',file); }
+	var setFile = function(file,type){
+		
+		var pathDir=file.replace(/(.*\/).*/,''); 
+		if(self.diagnosticMode) self._log('pathDir '+pathDir);
+
+		var dirExists=(pathDir!='') ? test('-e',pathDir) : true; 
+		if(!self.quietMode) self._log('dirExists = '+dirExists);
+
+		if ( !dirExists ) { 
+			mkdir('-p',pathDir); 
+			if(!self.quietMode) self._log(' Directory '+pathDir+' was not found so it was created.'); 
+		}
+
+		var isDirOnly = test('-d',file); 
+		if(!self.quietMode) self._log('isDirOnly = '+isDirOnly);
+
+		if ( isDirOnly ) {
+			var endsInSlash = ( file.match(/.*\//)===null ) ? '/' : '';
+			var defaultName = (type=='match') ? endsInSlash+self._defaultMatchFile : endsInSlash+self._defaultIgnoreFile;
+			file = file + defaultName;
+			if(!self.quietMode) self._log(' No filename was found in the '+type+' output file path so '+defaultName+' was added to the path.');
+		}
+
+		var fileExists = test('-e',file); 
+		if(!self.quietMode) self._log('fileExists = '+fileExists);
+
+		if ( fileExists ) {
+			rm('-f',file);
+			if(!self.quietMode) self._log(' The old '+type+' output file was removed and will be replaced with current results.');
+		}
+
+		touch(file); 
+		if(!self.quietMode) self._log(' '+file+' created ');
+
+		return test('-e',file);
+
+	}
 	var optext 	= self._templates();
 	
 	// Write stats to console
 	if(!self.quietMode) self._render(optext.CONSOLE_STATS,function(t){ self._log(t); });
+	else self._log(' '+self._matchedfiles.length+' matches found, check output file for details.');
 	
 	// Write matched stats to file
 	if(self.writeMatchFile){
-		if(setFile( self.matchOutputFile )){
+		if(setFile( self.matchOutputFile,'match' )){
 			self._render(optext.OUTPUT_FILE_HEADER,function(header){ 
 				header.toEnd( self.matchOutputFile );
 				_.each(self._matchedfiles,function(mf){
@@ -208,7 +247,7 @@ GoFind.prototype._report = function(){
 
 	// Write ignore stats to file
 	if(self.writeIgnoreFile){
-		if(setFile( self.ignoreOutputFile )){
+		if(setFile( self.ignoreOutputFile,'ignore' )){
 			self._render(optext.IGNORE_FILE_HEADER,function(t){
 				t.toEnd( self.ignoreOutputFile );
 				_.each(self._ignorefiles,function(f){ var ff=f+'\n'; ff.toEnd(self.ignoreOutputFile); });
@@ -216,7 +255,7 @@ GoFind.prototype._report = function(){
 			});
 		} else self._log( optext.ERROR_CREATE_IGNORE_FILE );
 	}
-	
+
 }
 
 GoFind.prototype._getfiles = function(cb){
