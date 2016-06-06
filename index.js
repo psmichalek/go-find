@@ -69,7 +69,7 @@ GoFind.prototype._find = function(){
 		}else if(self.writeMatchFile && self.showMatchLineNumbers){
 			
 			self._readlines(files,function(err){
-				if(err) console.log(err);
+				if(err) self._log(err);
 				self._report();
 			});
 
