@@ -4,7 +4,11 @@
     "name": "psmichalek"
   },
   "name": "go-find",
+<<<<<<< HEAD
   "version": "0.0.2",
+=======
+  "version": "0.0.3",
+>>>>>>> 5eebfd0ac6425298d5fcffbba5b018e5a5503e6d
   "description": "Utility for doing a simple text search in files.",
   "main": "index.js",
   "scripts": {

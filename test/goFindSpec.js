@@ -13,7 +13,7 @@ describe("Gofind",function(){
 
 	var gfo = new Gofind(),
 	optext = gfo._templates(),
-	testDir = "/Users/paul.michalek/",
+	testDir = "/Users/",
 	log = function(l){ console.log(l); },
 	testText = "12345";
 
@@ -58,18 +58,6 @@ describe("Gofind",function(){
 		assert(find.called);
 	});
 
-	// it('should output stats when all required properties are set.',function(done){
-	// 	var getfiles = this.sinon.spy(gfo,'_getfiles');
-	// 	gfo.searchText = testText;
-	// 	gfo.startDirectory = testDir;
-	// 	gfo.run();
-	// 	getfiles.happy=function(files){
-	// 		log(files)
-	// 		//expect(files.length).to.not.equal(0);
-	// 		done();
-	// 	}
-	// 	getfiles.yield("happy");
-				
-	// });
+	//TBD more tests, yo
 
 });
