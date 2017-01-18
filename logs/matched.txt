@@ -1,21 +1,23 @@
 
  ******************************************
- * Matched: "output"
+ * Matched: "Output"
  * Starting: /Users/paul.michalek/source-git/nodeapps/go-find
- * Files With Match: 6 out of 31
- * Run On: 01/17/2017 10:43:01 PM
+ * Files With Match: 7 out of 58
+ * Run On: 01/17/2017 11:00:35 PM
  ******************************************
 
  -----------------------------------------
  /Users/paul.michalek/source-git/nodeapps/go-find/README.md
   2: Simple module for doing a basic text search in files on your file system. Upon calling the run() method it will output the list of file containing the matches on the search text into a specified file. Also here is the finder script that will call go-find with some prompts on the command line to do the text search for you.
-  25: finder.matchOutputFile  = "/Users/ollie/wwwroot/sickwebapp/logs/mysteryman_matches.txt";
-  26: finder.ignoreOutputFile ='/Users/ollie/wwwroot/sickwebapp/logs/ignored.txt';
-  51: **matchOutputFile** 	- The full path to a file that will have a list of files containing the search text - full path to a file (string) - _matched.txt_ - No
-  53: **writeMatchFile** 		- Flag to indicate if you don't want it to produce a file with list of matches (i.e. outputFile) - true or false (boolean) - _false_ - No
-  55: **showMatchLineNumbers** - Flag to indicate if the output text file should include the matching line number and line of where match was found -  - true or false (boolean) - _false_ - No
-  59: **ignoreOutputFile** 	- The full path to a file that will have a list of files and directories that were ignored - full path to a file (string) - _ignored.txt_ - No
-  63: **quietMode** 			- Flag to turn on or off the console output - true or false (boolean) - _false_ - No
+  12: Once you've entered all info at the prompts the search will run and info will be displayed to the screen about what happened. If you chose to output the results to a file, that file will contain matches for the text along with what lines in the file actually contained the text.
+  21: Output file example:
+  37: finder.matchOutputFile  = "/Users/ollie/wwwroot/sickwebapp/logs/mysteryman_matches.txt";
+  38: finder.ignoreOutputFile ='/Users/ollie/wwwroot/sickwebapp/logs/ignored.txt';
+  63: **matchOutputFile** 	- The full path to a file that will have a list of files containing the search text - full path to a file (string) - _matched.txt_ - No
+  65: **writeMatchFile** 		- Flag to indicate if you don't want it to produce a file with list of matches (i.e. outputFile) - true or false (boolean) - _false_ - No
+  67: **showMatchLineNumbers** - Flag to indicate if the output text file should include the matching line number and line of where match was found -  - true or false (boolean) - _false_ - No
+  71: **ignoreOutputFile** 	- The full path to a file that will have a list of files and directories that were ignored - full path to a file (string) - _ignored.txt_ - No
+  75: **quietMode** 			- Flag to turn on or off the console output - true or false (boolean) - _false_ - No
  -----------------------------------------
  /Users/paul.michalek/source-git/nodeapps/go-find/finder.js
   31: 	finder.matchOutputFile  = (typeof vals.matchFile!=='undefined') ? vals.matchFile : defaultMatchFile
@@ -44,6 +46,49 @@
   255: 				t.toEnd( self.ignoreOutputFile );
   256: 				_.each(self._ignorefiles,function(f){ let ff=f+'\n'; ff.toEnd(self.ignoreOutputFile); });
   257: 				_.each(self._ignoredirs,function(f){ let fff=f+'\n'; fff.toEnd(self.ignoreOutputFile); });
+ -----------------------------------------
+ /Users/paul.michalek/source-git/nodeapps/go-find/logs/matched.txt
+  3:  * Matched: "output"
+  11:   2: Simple module for doing a basic text search in files on your file system. Upon calling the run() method it will output the list of file containing the matches on the search text into a specified file. Also here is the finder script that will call go-find with some prompts on the command line to do the text search for you.
+  12:   25: finder.matchOutputFile  = "/Users/ollie/wwwroot/sickwebapp/logs/mysteryman_matches.txt";
+  13:   26: finder.ignoreOutputFile ='/Users/ollie/wwwroot/sickwebapp/logs/ignored.txt';
+  14:   51: **matchOutputFile** 	- The full path to a file that will have a list of files containing the search text - full path to a file (string) - _matched.txt_ - No
+  15:   53: **writeMatchFile** 		- Flag to indicate if you don't want it to produce a file with list of matches (i.e. outputFile) - true or false (boolean) - _false_ - No
+  16:   55: **showMatchLineNumbers** - Flag to indicate if the output text file should include the matching line number and line of where match was found -  - true or false (boolean) - _false_ - No
+  17:   59: **ignoreOutputFile** 	- The full path to a file that will have a list of files and directories that were ignored - full path to a file (string) - _ignored.txt_ - No
+  18:   63: **quietMode** 			- Flag to turn on or off the console output - true or false (boolean) - _false_ - No
+  21:   31: 	finder.matchOutputFile  = (typeof vals.matchFile!=='undefined') ? vals.matchFile : defaultMatchFile
+  22:   32: 	finder.ignoreOutputFile = (typeof vals.ignoreFile!=='undefined') ? vals.ignoreFile : defaultIgnoreFile
+  23:   94: 		description : qtext(' Path to output of files ignored:'),
+  26:   4:  * @description will search files for specified string and output files with matches to specified text file
+  27:   40: 	this.matchOutputFile=this._defaultMatchFile;
+  28:   44: 	this.ignoreOutputFile=this._defaultIgnoreFile;
+  29:   123: 	if(self.writeMatchFile)  statstpml=statstpml+' * Matched files in: {matchOutputFile}\n';
+  30:   126: 	if(self.writeIgnoreFile) statstpml=statstpml+' * Ignored in: {ignoreOutputFile}\n';
+  31:   133: 	t.OUTPUT_FILE_HEADER	='\n'+
+  32:   152: 	t.ERROR_CREATE_MATCH_FILE 	= ' Could not create the file '+self.matchOutputFile +'. Make sure directory exists.';
+  33:   153: 	t.ERROR_CREATE_IGNORE_FILE 	= ' Could not create the file '+self.ignoreOutputFile+'. Make sure directory exists.';
+  34:   167: 		templ=templ.replace(/\{matchOutputFile}/g,self.matchOutputFile);
+  35:   168: 		templ=templ.replace(/\{ignoreOutputFile\}/g,self.ignoreOutputFile);
+  36:   204: 			if(!self.quietMode) self._log(' No filename was found in the '+type+' output file path so '+defaultName+' was added to the path.');
+  37:   212: 			if(!self.quietMode) self._log(' The old '+type+' output file was removed and will be replaced with current results.');
+  38:   227: 	else self._log(' '+self._matchedfiles.length+' matches found, check output file for details.');
+  39:   231: 		if(setFile( self.matchOutputFile,'match' )){
+  40:   232: 			self._render(optext.OUTPUT_FILE_HEADER,function(header){
+  41:   233: 				header.toEnd( self.matchOutputFile );
+  42:   245: 					sout.toEnd( self.matchOutputFile );
+  43:   253: 		if(setFile( self.ignoreOutputFile,'ignore' )){
+  44:   255: 				t.toEnd( self.ignoreOutputFile );
+  45:   256: 				_.each(self._ignorefiles,function(f){ let ff=f+'\n'; ff.toEnd(self.ignoreOutputFile); });
+  46:   257: 				_.each(self._ignoredirs,function(f){ let fff=f+'\n'; fff.toEnd(self.ignoreOutputFile); });
+  49:   29:         expect(gfo).to.have.property('matchOutputFile')
+  50:   32:         expect(gfo).to.have.property('ignoreOutputFile')
+  51:   37: 	it('should output "'+optext.NO_SEARCH_TEXT+'" when search is called if required searchText property is not set.',function(){
+  52:   44: 	it('should output "'+optext.NO_START_DIR+'" when search is called if required startDirectory property is not set.',function(){
+  53:   52: 	it('should output "'+optext.START_TEXT+'" when all required properties are set.',function(){
+  56:   21: # Redirect output to stderr.
+  59:   15: # The second includes the output of "git diff --name-status -r"
+  60:   16: # into the message, just before the "git status" output.  It is
  -----------------------------------------
  /Users/paul.michalek/source-git/nodeapps/go-find/test/goFindSpec.js
   29:         expect(gfo).to.have.property('matchOutputFile')
