@@ -1,27 +1,24 @@
 'use strict'
 
-// Environment
-const BASE_PATH = __dirname
+const GO_MODE   = false
+const BASE_PATH = __dirname.replace('bin','')
 
-// set to true and it will only prompt for what text you want to search for
-const GO_MODE = false
+let path                = require('path')
+let prompt              = require('prompt')
+let colors              = require('colors/safe')
+let _                   = require('lodash')
+let defaultIgnoreFile   = path.join(BASE_PATH,'logs/ignored.txt')
+let defaultMatchFile    = path.join(BASE_PATH,'logs/matched.txt')
+let defulatStartPath    = BASE_PATH
+let pSchema             = getschema();
 
-// Defaults
-let defaultIgnoreFile=__dirname+'/logs/ignored.txt'
-let defaultMatchFile=__dirname+'/logs/matched.txt'
-let defulatStartPath = BASE_PATH
-let prompt = require('prompt')
-let colors = require('colors/safe')
-let _ = require('lodash')
-
-let pSchema = getschema();
-prompt.message = ''
-prompt.delimiter = ''
+prompt.message          = ''
+prompt.delimiter        = ''
 prompt.start()
 prompt.get(pSchema,function(err,vals){
 
-	let gofind = require('./index.js')
-	let finder              = new gofind()
+	let GoFind              = require('../index.js')
+	let finder              = new GoFind()
 	finder.startDirectory   = (typeof vals.start!=='undefined') ? vals.start : defulatStartPath
 	finder.searchRecursive  = true
 	finder.searchText       = vals.searchText
@@ -39,7 +36,9 @@ prompt.get(pSchema,function(err,vals){
 
 });
 
-function qtext(m){ return colors.green(m); }
+function qtext(m){
+    return colors.green(m);
+}
 
 function getschema(){
 	let prompts = {}
