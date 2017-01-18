@@ -1,25 +1,26 @@
+'use strict'
 /*!
  * Node.JS module "Go Find!"
- * @description will search files for specified string and output files with matches to specified text file 
+ * @description will search files for specified string and output files with matches to specified text file
  * @author Paul S Michalek (psmichalek@gmail.com)
  * @license MIT
  *
  * The MIT License (MIT)
  */
- 
-var fs 			= require('fs'),
-	path 		= require('path'),
-	recursive 	= require('recursive-readdir'),
-	_ 			= require('lodash'),
-	readln	 	= require('readline'),
-	Q 			= require('q'),
-	moment 		= require('moment');
-	
-require('shelljs/global');
 
-var GoFind = function(){
+let  fs 		= require('fs');
+let path 		= require('path');
+let recursive 	= require('recursive-readdir');
+let _ 			= require('lodash');
+let readln	 	= require('readline');
+let Q 			= require('q');
+let moment 		= require('moment');
+
+require('shelljs/global')
+
+let GoFind = function(){
 	if (!(this instanceof GoFind) ) return new GoFind();
-	
+
 	// Private properties
 	this._totaldirs=[];
 	this._totalfiles=[];
@@ -55,21 +56,21 @@ GoFind.prototype.run = function(){
 }
 
 GoFind.prototype._find = function(){
-	var self = this;
-	var optext 	= self._templates(),
+	let self = this;
+	let optext 	= self._templates(),
 		matchers = [];
-	var setMatchFlag = function(){ var i=self.caseSensitive; var g=self.wholeWord; return (i&&g)?"gi":(i)?"i":(g)?"g":""; }
+	let setMatchFlag = function(){ let i=self.caseSensitive; let g=self.wholeWord; return (i&&g)?"gi":(i)?"i":(g)?"g":""; }
 	self._matchRe = new RegExp(self.searchText, setMatchFlag() );
 	self._log(optext.START_TEXT);
-	self._getfiles(function(files){ 
-		
+	self._getfiles(function(files){
+
 		if(self.writeMatchFile && !self.showMatchLineNumbers) {
-			_.each(files,function(file){ 
-				if( fs.readFileSync(file,'utf8').match(self._matchRe) ) self._matchedfiles.push({file:file,lines:[]}); 
+			_.each(files,function(file){
+				if( fs.readFileSync(file,'utf8').match(self._matchRe) ) self._matchedfiles.push({file:file,lines:[]});
 			});
 			self._report();
 		}else if(self.writeMatchFile && self.showMatchLineNumbers){
-			
+
 			self._readlines(files,function(err){
 				if(err) self._log(err);
 				self._report();
@@ -81,10 +82,10 @@ GoFind.prototype._find = function(){
 }
 
 GoFind.prototype._readlines = function(files,callback){
-	var self = this;
-	var filecoll =  files.slice(0);
+	let self = this;
+	let filecoll =  files.slice(0);
 	(function readOneFile(){
-		var file = filecoll.splice(0,1)[0];
+		let file = filecoll.splice(0,1)[0];
 		self._matchme(file,function(err){
 			if (err){ callback(err); return }
 			if (filecoll.length==0) callback();
@@ -94,13 +95,13 @@ GoFind.prototype._readlines = function(files,callback){
 }
 
 GoFind.prototype._matchme = function(file,cb){
-	var self = this;
-	var rl = readln.createInterface({ input: fs.createReadStream(file) });
-	var ln =0, matchedlines = [];
+	let self = this;
+	let rl = readln.createInterface({ input: fs.createReadStream(file) });
+	let ln =0, matchedlines = [];
 
 	rl.on('line', function(line){
 		ln=ln+1;
-	  	if( line.match(self._matchRe) ) matchedlines.push({line:ln,text:line}); 
+	  	if( line.match(self._matchRe) ) matchedlines.push({line:ln,text:line});
 	});
 
 	rl.on('close',function(){
@@ -111,8 +112,8 @@ GoFind.prototype._matchme = function(file,cb){
 }
 
 GoFind.prototype._templates = function(){
-	var self = this;
-	var statstpml			='\n ******************************************\n'+
+	let self = this;
+	let statstpml			='\n ******************************************\n'+
 							' * Search Text: "{searchText}" \n'+
 							' * Starting Directory: {startDirectory}\n'+
 							' * Using Recursion: {searchRecursive}\n'+
@@ -124,8 +125,8 @@ GoFind.prototype._templates = function(){
 	if(self.writeIgnoreFile) statstpml=statstpml+' * Skipped files: {ignorefilesLen} out of {totalfilesLen}\n';
 	if(self.writeIgnoreFile) statstpml=statstpml+' * Ignored in: {ignoreOutputFile}\n';
 	statstpml				=statstpml+' ******************************************';
-	
-	var t = {};
+
+	let t = {};
 	t.NO_SEARCH_TEXT 		=' No search text set.';
 	t.NO_START_DIR			=' No starting directory was set.';
 	t.START_DIR_NOT_FOUND	=' Starting directory was not found.';
@@ -148,15 +149,15 @@ GoFind.prototype._templates = function(){
 							'\n';
 	t.START_TEXT			='\n Starting search '+moment().format("MM/DD/YYYY hh:mm:ss A");
 	t.CONSOLE_STATS = statstpml;
-	t.ERROR_CREATE_MATCH_FILE 	= ' Could not create the file '+self.matchOutputFile +'. Make sure directory exists.';		
-	t.ERROR_CREATE_IGNORE_FILE 	= ' Could not create the file '+self.ignoreOutputFile+'. Make sure directory exists.';	
-	return t;	
+	t.ERROR_CREATE_MATCH_FILE 	= ' Could not create the file '+self.matchOutputFile +'. Make sure directory exists.';
+	t.ERROR_CREATE_IGNORE_FILE 	= ' Could not create the file '+self.ignoreOutputFile+'. Make sure directory exists.';
+	return t;
 }
 
 GoFind.prototype._render = function(templ,callback){
-	var self = this;
+	let self = this;
 	if(typeof templ!='undefined'){
-		
+
 		templ=templ.replace(/\{searchText}/g,self.searchText);
 		templ=templ.replace(/\{startDirectory}/g,self.startDirectory);
 		templ=templ.replace(/\{caseSensitive}/g,self.caseSensitive);
@@ -172,38 +173,38 @@ GoFind.prototype._render = function(templ,callback){
 
 		templ=templ.replace(/\{totaldirsLen\}/g,self._totaldirs.length);
 		templ=templ.replace(/\{totalfilesLen\}/g,self._totalfiles.length);
-		
+
 		templ=templ.replace(/\{date\}/g,moment().format("MM/DD/YYYY hh:mm:ss A"));
 	}
 	callback(templ);
 }
 
 GoFind.prototype._report = function(){
-	var self = this;
-	var setFile = function(file,type){
-		
-		var pathDir=file.match(/(.*)[\/\\]/)[1]||'';
+	let self = this;
+	let setFile = function(file,type){
+
+		let pathDir=file.match(/(.*)[\/\\]/)[1]||'';
 		if(!self.quietMode) self._log('pathDir = '+pathDir);
 
-		var dirExists=(pathDir!='') ? test('-e',pathDir) : true; 
+		let dirExists=(pathDir!='') ? test('-e',pathDir) : true;
 		if(!self.quietMode) self._log('dirExists = '+dirExists);
 
-		if ( !dirExists ) { 
-			mkdir('-p',pathDir); 
-			if(!self.quietMode) self._log(' Directory "'+pathDir+'" was not found so it was created.'); 
+		if ( !dirExists ) {
+			mkdir('-p',pathDir);
+			if(!self.quietMode) self._log(' Directory "'+pathDir+'" was not found so it was created.');
 		}
 
-		var isDirOnly = test('-d',file); 
+		let isDirOnly = test('-d',file);
 		if(!self.quietMode) self._log('isDirOnly = '+isDirOnly);
 
 		if ( isDirOnly ) {
-			var endsInSlash = ( file.match(/.*\//)===null ) ? '/' : '';
-			var defaultName = (type=='match') ? endsInSlash+self._defaultMatchFile : endsInSlash+self._defaultIgnoreFile;
+			let endsInSlash = ( file.match(/.*\//)===null ) ? '/' : '';
+			let defaultName = (type=='match') ? endsInSlash+self._defaultMatchFile : endsInSlash+self._defaultIgnoreFile;
 			file = file + defaultName;
 			if(!self.quietMode) self._log(' No filename was found in the '+type+' output file path so '+defaultName+' was added to the path.');
 		}
 
-		var fileExists = test('-e',file); 
+		let fileExists = test('-e',file);
 		if(!self.quietMode) self._log('fileExists = '+fileExists);
 
 		if ( fileExists ) {
@@ -211,27 +212,27 @@ GoFind.prototype._report = function(){
 			if(!self.quietMode) self._log(' The old '+type+' output file was removed and will be replaced with current results.');
 		}
 
-		try { 
-			touch(file); 
+		try {
+			touch(file);
 			if(!self.quietMode) self._log(' '+file+' created ');
 		} catch(e){}
 
 		return test('-e',file);
 
 	}
-	var optext 	= self._templates();
-	
+	let optext 	= self._templates();
+
 	// Write stats to console
 	if(!self.quietMode) self._render(optext.CONSOLE_STATS,function(t){ self._log(t); });
 	else self._log(' '+self._matchedfiles.length+' matches found, check output file for details.');
-	
+
 	// Write matched stats to file
 	if(self.writeMatchFile){
 		if(setFile( self.matchOutputFile,'match' )){
-			self._render(optext.OUTPUT_FILE_HEADER,function(header){ 
+			self._render(optext.OUTPUT_FILE_HEADER,function(header){
 				header.toEnd( self.matchOutputFile );
 				_.each(self._matchedfiles,function(mf){
-					var sout='';
+					let sout='';
 					if(self.showMatchLineNumbers) {
 						sout=sout+' -----------------------------------------\n';
 						sout=sout+' '+mf.file+'\n';
@@ -243,7 +244,7 @@ GoFind.prototype._report = function(){
 					}
 					sout.toEnd( self.matchOutputFile );
 				});
-			});			
+			});
 		} else self._log( optext.ERROR_CREATE_MATCH_FILE );
 	}
 
@@ -252,8 +253,8 @@ GoFind.prototype._report = function(){
 		if(setFile( self.ignoreOutputFile,'ignore' )){
 			self._render(optext.IGNORE_FILE_HEADER,function(t){
 				t.toEnd( self.ignoreOutputFile );
-				_.each(self._ignorefiles,function(f){ var ff=f+'\n'; ff.toEnd(self.ignoreOutputFile); });
-				_.each(self._ignoredirs,function(f){ var fff=f+'\n'; fff.toEnd(self.ignoreOutputFile); });
+				_.each(self._ignorefiles,function(f){ let ff=f+'\n'; ff.toEnd(self.ignoreOutputFile); });
+				_.each(self._ignoredirs,function(f){ let fff=f+'\n'; fff.toEnd(self.ignoreOutputFile); });
 			});
 		} else self._log( optext.ERROR_CREATE_IGNORE_FILE );
 	}
@@ -261,15 +262,15 @@ GoFind.prototype._report = function(){
 }
 
 GoFind.prototype._getfiles = function(cb){
-	var self = this;
+	let self = this;
 	recursive(self.startDirectory,[ignoresCb],recursiveCb);
 	function ignoresCb(file,stats){
-		var ignoreme=false;
-		
+		let ignoreme=false;
+
 		// Collect some stats
 		if( stats.isDirectory() ) self._totaldirs.push(path.basename(file));
 		else self._totalfiles.push(file);
-		
+
 		// Eval to see if gonna ignore it
 		if( !self.searchRecursive && stats.isDirectory() ) { ignoreme=true; self._ignoredirs.push(file); }
 		else if( self.ignored.length>0 && _.find(self.ignored,function(v){return path.basename(file)==v; }) ) { ignoreme=true; self._ignorefiles.push(file); }

@@ -1,32 +1,60 @@
 
  ******************************************
- * Matched: "function saveTemplate"
- * Starting: /Users/pmichalek/_Development/svn/evalue/
- * Files With Match: 8 out of 30563
- * Run On: 05/31/2016 01:47:15 PM
+ * Matched: "output"
+ * Starting: /Users/paul.michalek/source-git/nodeapps/go-find
+ * Files With Match: 6 out of 31
+ * Run On: 01/17/2017 10:43:01 PM
  ******************************************
 
  -----------------------------------------
- /Users/pmichalek/_Development/svn/evalue/admin/Shift/dsp_shiftCalendar.cfm
-  740: 		function saveTemplate(mo,dy,yr,ovrWrt,name) {
+ /Users/paul.michalek/source-git/nodeapps/go-find/README.md
+  2: Simple module for doing a basic text search in files on your file system. Upon calling the run() method it will output the list of file containing the matches on the search text into a specified file. Also here is the finder script that will call go-find with some prompts on the command line to do the text search for you.
+  25: finder.matchOutputFile  = "/Users/ollie/wwwroot/sickwebapp/logs/mysteryman_matches.txt";
+  26: finder.ignoreOutputFile ='/Users/ollie/wwwroot/sickwebapp/logs/ignored.txt';
+  51: **matchOutputFile** 	- The full path to a file that will have a list of files containing the search text - full path to a file (string) - _matched.txt_ - No
+  53: **writeMatchFile** 		- Flag to indicate if you don't want it to produce a file with list of matches (i.e. outputFile) - true or false (boolean) - _false_ - No
+  55: **showMatchLineNumbers** - Flag to indicate if the output text file should include the matching line number and line of where match was found -  - true or false (boolean) - _false_ - No
+  59: **ignoreOutputFile** 	- The full path to a file that will have a list of files and directories that were ignored - full path to a file (string) - _ignored.txt_ - No
+  63: **quietMode** 			- Flag to turn on or off the console output - true or false (boolean) - _false_ - No
  -----------------------------------------
- /Users/pmichalek/_Development/svn/evalue/users/pxdx/inc_pxdx-js.cfm
-  1622: 	function saveTemplate(){
+ /Users/paul.michalek/source-git/nodeapps/go-find/finder.js
+  31: 	finder.matchOutputFile  = (typeof vals.matchFile!=='undefined') ? vals.matchFile : defaultMatchFile
+  32: 	finder.ignoreOutputFile = (typeof vals.ignoreFile!=='undefined') ? vals.ignoreFile : defaultIgnoreFile
+  94: 		description : qtext(' Path to output of files ignored:'),
  -----------------------------------------
- /Users/pmichalek/_Development/svn/evalue/users/pxdxb/inc_pxdx-js.cfm
-  1622: 	function saveTemplate(){
+ /Users/paul.michalek/source-git/nodeapps/go-find/index.js
+  4:  * @description will search files for specified string and output files with matches to specified text file
+  40: 	this.matchOutputFile=this._defaultMatchFile;
+  44: 	this.ignoreOutputFile=this._defaultIgnoreFile;
+  123: 	if(self.writeMatchFile)  statstpml=statstpml+' * Matched files in: {matchOutputFile}\n';
+  126: 	if(self.writeIgnoreFile) statstpml=statstpml+' * Ignored in: {ignoreOutputFile}\n';
+  133: 	t.OUTPUT_FILE_HEADER	='\n'+
+  152: 	t.ERROR_CREATE_MATCH_FILE 	= ' Could not create the file '+self.matchOutputFile +'. Make sure directory exists.';
+  153: 	t.ERROR_CREATE_IGNORE_FILE 	= ' Could not create the file '+self.ignoreOutputFile+'. Make sure directory exists.';
+  167: 		templ=templ.replace(/\{matchOutputFile}/g,self.matchOutputFile);
+  168: 		templ=templ.replace(/\{ignoreOutputFile\}/g,self.ignoreOutputFile);
+  204: 			if(!self.quietMode) self._log(' No filename was found in the '+type+' output file path so '+defaultName+' was added to the path.');
+  212: 			if(!self.quietMode) self._log(' The old '+type+' output file was removed and will be replaced with current results.');
+  227: 	else self._log(' '+self._matchedfiles.length+' matches found, check output file for details.');
+  231: 		if(setFile( self.matchOutputFile,'match' )){
+  232: 			self._render(optext.OUTPUT_FILE_HEADER,function(header){
+  233: 				header.toEnd( self.matchOutputFile );
+  245: 					sout.toEnd( self.matchOutputFile );
+  253: 		if(setFile( self.ignoreOutputFile,'ignore' )){
+  255: 				t.toEnd( self.ignoreOutputFile );
+  256: 				_.each(self._ignorefiles,function(f){ let ff=f+'\n'; ff.toEnd(self.ignoreOutputFile); });
+  257: 				_.each(self._ignoredirs,function(f){ let fff=f+'\n'; fff.toEnd(self.ignoreOutputFile); });
  -----------------------------------------
- /Users/pmichalek/_Development/svn/evalue/Reports/dsp_criteria-js.cfm
-  90: function saveTemplate() {
+ /Users/paul.michalek/source-git/nodeapps/go-find/test/goFindSpec.js
+  29:         expect(gfo).to.have.property('matchOutputFile')
+  32:         expect(gfo).to.have.property('ignoreOutputFile')
+  37: 	it('should output "'+optext.NO_SEARCH_TEXT+'" when search is called if required searchText property is not set.',function(){
+  44: 	it('should output "'+optext.NO_START_DIR+'" when search is called if required startDirectory property is not set.',function(){
+  52: 	it('should output "'+optext.START_TEXT+'" when all required properties are set.',function(){
  -----------------------------------------
- /Users/pmichalek/_Development/svn/evalue/Reports/Curriculum/dsp_elemByCurric.cfm
-  103: 		function saveTemplate() {
+ /Users/paul.michalek/source-git/nodeapps/go-find/.git/hooks/pre-commit.sample
+  21: # Redirect output to stderr.
  -----------------------------------------
- /Users/pmichalek/_Development/svn/evalue/Reports/Curriculum/dsp_elemXTab.cfm
-  104: 		function saveTemplate() {
- -----------------------------------------
- /Users/pmichalek/_Development/svn/evalue/Reports/curriculumdocs/dsp_criteria-js.cfm
-  75: function saveTemplate() {
- -----------------------------------------
- /Users/pmichalek/_Development/svn/evalue/Reports/egme/audit/dsp_editTemplates.cfm
-  75: 	function saveTemplate()
+ /Users/paul.michalek/source-git/nodeapps/go-find/.git/hooks/prepare-commit-msg.sample
+  15: # The second includes the output of "git diff --name-status -r"
+  16: # into the message, just before the "git status" output.  It is

@@ -1,11 +1,19 @@
 # Go-Find
-Simple Node module for doing a basic text search in files on your file system. Upon calling the run() method it will output the list of file containing the matches on the search text into a specified file.
+Simple module for doing a basic text search in files on your file system. Upon calling the run() method it will output the list of file containing the matches on the search text into a specified file. Also here is the finder script that will call go-find with some prompts on the command line to do the text search for you.
 
 It uses [recursive-readdir](https://www.npmjs.com/package/recursive-readdir) module for searching so please refer to that for more information on how it's doing the search.
 
 Uses the Javscript [match()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match) method to actually do the match on the text.
 
 ## Useage
+To use the finder script to just do a search just run "npm start" and follow the prompts. If you want to just get to searching and skip all the other prompts, open the finder.js file and set the GO_MODE const to true (also set BASE_PATH to whatever directory you want it to start searching from). Once you've entered all info at the prompts the search will run and info will be displayed to the screen about what happened. If you chose to output the results to a file, that file will contain matches for the text along with what lines in the file actually contained the text.
+
+![screenshot](/screenshot-1.png)
+
+![screenshot](/screenshot-2.png)
+
+If you want to write you're own script to use the go-find module instanciate a gofind object, set the properties then call the run() method.
+
 ```javascript
 var gofind = require('go-find');
 
@@ -25,11 +33,6 @@ finder.writeIgnoreFile  = false;
 
 // Call run to execute the search
 finder.run();
-
-// Notes
-// It will ignore the .svn, test directories and any file named about.html
-// The file /Users/ollie/wwwroot/sickwebapp/logs/mysteryman_matches.txt will contain a list of files that the text appears in
-// The file /Users/ollie/wwwroot/sickwebapp/logs/ignored.txt will contain the files and directories that were ignored in the search
 
 ```
 
@@ -61,4 +64,5 @@ The following properties can be set on the gofind object.
 
 **quietMode** 			- Flag to turn on or off the console output - true or false (boolean) - _false_ - No
 
-
+##Tests
+Run npm test to fire off the specs in the tests directory. Feel free to write some more tests for it, I didn't reall go HAM on tests for this guy.

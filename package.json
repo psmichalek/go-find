@@ -4,26 +4,26 @@
     "name": "psmichalek"
   },
   "name": "go-find",
-<<<<<<< HEAD
-  "version": "0.0.2",
-=======
-  "version": "0.0.3",
->>>>>>> 5eebfd0ac6425298d5fcffbba5b018e5a5503e6d
+  "version": "1.0.0",
   "description": "Utility for doing a simple text search in files.",
   "main": "index.js",
   "scripts": {
+    "start":"node finder.js",
     "test": "mocha"
   },
   "author": "Paul Samuel Michalek",
   "license": "MIT",
+  "devDependencies":{
+
+  },
   "dependencies": {
-    "fs": "0.0.2",
-    "lodash": "^4.6.1",
-    "moment": "^2.12.0",
-    "path": "^0.12.7",
-    "readline": "^1.3.0",
-    "recursive-readdir": "^1.3.0",
-    "shelljs": "^0.6.0"
+    "fs": "latest",
+    "lodash": "latest",
+    "moment": "latest",
+    "path": "latest",
+    "readline": "latest",
+    "recursive-readdir": "latest",
+    "shelljs": "latest"
   },
   "repository": {
     "type": "git",
