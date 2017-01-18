@@ -7,9 +7,11 @@ Uses the Javscript [match()](https://developer.mozilla.org/en-US/docs/Web/JavaSc
 
 ## Useage
 
-**Quick Search:** run "npm start" and follow the prompts.
+**Quick Search:** run _npm start_ and follow the prompts.
 
-If you want to skip all the prompts, open the **finder.js** file and set the **GO_MODE** const to true (also set **BASE_PATH** to whatever directory you want it to start searching from). Once you've entered all info at the prompts the search will run and info will be displayed to the screen about what happened. If you chose to output the results to a file, that file will contain matches for the text along with what lines in the file actually contained the text.
+Once you've entered all info at the prompts the search will run and info will be displayed to the screen about what happened. If you chose to output the results to a file, that file will contain matches for the text along with what lines in the file actually contained the text.
+
+NOTE: If you want to skip all the prompts, open the **finder.js** file and set the **GO_MODE** const to true (also set **BASE_PATH** to whatever directory you want it to start searching from).
 
 Running finder:
 
