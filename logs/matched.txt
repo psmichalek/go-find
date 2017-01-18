@@ -1,8 +1,0 @@
-
- ******************************************
- * Matched: "asdfsad"
- * Starting: /Users/paul.michalek/source-git/nodeapps/go-find/
- * Files With Match: 0 out of 11
- * Run On: 01/17/2017 11:47:38 PM
- ******************************************
-
