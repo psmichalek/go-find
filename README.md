@@ -15,12 +15,12 @@ NOTE: If you want to skip all the prompts, open the **finder.js** file and set t
 
 Running finder:
 
-![screenshot](/screenshot-1.png)
+![screenshot](/screenshots/1.png)
 
 
 Output file example:
 
-![screenshot2](/screenshot-2.png)
+![screenshot2](/screenshots/2.png)
 
 If you want to write you're own script to use the go-find module instanciate a gofind object, set the properties then call the run() method.
 
