@@ -1,5 +1,5 @@
 # Go-Find
-Simple module for doing a basic text search in files on your file system. I created this to have an easy way to search through our legacy code base and locate what files and lines in those files had certain text strings. I know there are real tools that do this but it was a chance to experimen a bit with Node.js and using Javascript for the task. It works great, I use it a lot :)
+Simple module for doing a basic text search in files on your file system. I created this to have an easy way to search through our legacy code base and locate what files and lines in those files had certain text strings. I know there are real tools that do this but it was a chance to experimen a bit with Node.js and using Javascript for the task. It works great, I use it a lot :) I published it to the NPM registry as well so you can do an **npm install go-find** as well as clone this repo.
 
 Upon calling the run() method it will output the list of file containing the matches on the search text into a specified file. Also here is the finder script that will call go-find with some prompts on the command line to do the text search for you.
 
