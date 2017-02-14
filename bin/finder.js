@@ -1,6 +1,6 @@
 'use strict'
 
-const GO_MODE   = false
+const GO_MODE   = true
 const BASE_PATH = __dirname.replace('bin','')
 
 let path                = require('path')
@@ -9,7 +9,7 @@ let colors              = require('colors/safe')
 let _                   = require('lodash')
 let defaultIgnoreFile   = path.join(BASE_PATH,'logs/ignored.txt')
 let defaultMatchFile    = path.join(BASE_PATH,'logs/matched.txt')
-let defulatStartPath    = BASE_PATH
+let defulatStartPath    = (process.env.FTP_LOCAL_BASE) ? process.env.FTP_LOCAL_BASE : BASE_PATH
 let pSchema             = getschema();
 
 prompt.message          = ''
@@ -24,7 +24,7 @@ prompt.get(pSchema,function(err,vals){
 	finder.searchText       = vals.searchText
 	finder.caseSensitive    = true
 	finder.wholeWord        = true
-	finder.ignored          = [".git"]
+	finder.ignored          = [".git",".svn"]
 	finder.matchOutputFile  = (typeof vals.matchFile!=='undefined') ? vals.matchFile : defaultMatchFile
 	finder.ignoreOutputFile = (typeof vals.ignoreFile!=='undefined') ? vals.ignoreFile : defaultIgnoreFile
 	finder.showMatchLineNumbers = true
